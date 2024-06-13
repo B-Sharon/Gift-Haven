@@ -148,7 +148,6 @@ def delete_user():
     id_ = input("Enter the user's id: ")
     if user := User.find_by_id(id_):
         user.delete()
-        print(f'User {id_} deleted')
     else:
         print(f'User {id_} not found')
 
