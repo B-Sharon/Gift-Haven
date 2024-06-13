@@ -58,29 +58,6 @@ The application uses Python's standard library for database interactions, ensuri
 6.  **CLI Interface:** 
 - Easy-to-use command line interface with a menu-driven system for seamless navigation.
 
-## Project Strucure
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── cli.py
-    ├── db
-    │   ├── models.py
-    │   ├── seed.py
-    ├── debug.py
-    ├── helpers.py
-    ├── models
-    │   ├── __init__.py
-    │   ├── customer.py
-    │   ├── gift.py
-    │   ├── order_items.py
-    │   ├── order.py
-    │   └── user.py
-    ├── company.db  # Database file
-    ├── seed.py     # Script to seed the database
-    └── helpers.py  # Utility functions
-
 ## Installation
 To run Gift Haven on your local machine, follow these steps:
 
