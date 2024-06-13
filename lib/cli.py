@@ -222,9 +222,9 @@ def create_order_item():
     order_id = input("Enter the order id: ")
     gift_id = input("Enter the gift id: ")
     quantity = input("Enter the quantity: ")
-    price = input("Enter the price: ")
+    #price = input("Enter the price: ")
     try:
-        order_item = OrderItems.create(order_id, gift_id, int(quantity), float(price))
+        order_item = OrderItems.create(order_id, gift_id, int(quantity), )
         print(f'Success: {order_item}')
     except Exception as exc:
         print("Error creating order item: ", exc)
@@ -236,11 +236,11 @@ def update_order_item():
             order_id = input("Enter the new order id: ")
             gift_id = input("Enter the new gift id: ")
             quantity = input("Enter the new quantity: ")
-            price = input("Enter the new price: ")
+            #price = input("Enter the new price: ")
             order_item.order_id = order_id
             order_item.gift_id = gift_id
             order_item.quantity = int(quantity)
-            order_item.price = float(price)
+            #order_item.price = float(price)
             order_item.update()
             print(f'Success: {order_item}')
         except Exception as exc:

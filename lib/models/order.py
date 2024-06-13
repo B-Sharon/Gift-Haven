@@ -2,6 +2,7 @@ from models.__init__ import CURSOR, CONN
 from models.customer import Customer
 from models.user import User
 
+
 class Order:
     all = {}
 
@@ -37,6 +38,27 @@ class Order:
         CURSOR.execute(SQL)
         CONN.commit()
 
+    def update_total_amount(self):
+        from models.order_items import OrderItems
+        # Retrieve all order items associated with this order
+        order_items = OrderItems.find_by_order_id(self.order_id)
+
+        # Calculate the total amount based on order items' prices and quantities
+        total_amount = sum(item.price for item in order_items)
+
+        # Update the total_amount attribute
+        self.total_amount = total_amount
+
+    def update(self):
+        SQL = """
+        UPDATE orders
+        SET date = ?, customer_id = ?, user_id = ?, total_amount = ?
+        WHERE id = ?;
+        """
+        CURSOR.execute(SQL, (self.date, self.customer_id, self.user_id, self.total_amount, self.order_id))
+        CONN.commit()
+
+    # Ensure that whenever an Order is updated, the total_amount is also updated
     def save(self):
         SQL = """
         INSERT INTO orders (date, customer_id, user_id, total_amount)
@@ -47,29 +69,6 @@ class Order:
         self.order_id = CURSOR.lastrowid
         type(self).all[self.order_id] = self
 
-    @classmethod
-    def create(cls, customer_id, user_id, total_amount):
-        SQL = """
-        INSERT INTO orders (date, customer_id, user_id, total_amount)
-        VALUES (datetime('now', 'localtime'), ?, ?, ?);
-        """
-        CURSOR.execute(SQL, (customer_id, user_id, total_amount))
-        CONN.commit()
-        order_id = CURSOR.lastrowid
-        order = cls(order_id, datetime.now().strftime('%Y-%m-%d %H:%M:%S'), customer_id, user_id, total_amount)
-        type(cls).all[order_id] = order
-        return order
-
-    def update(self):
-        SQL = """
-        UPDATE orders
-        SET date = datetime('now', 'localtime'), customer_id = ?, user_id = ?, total_amount = ?
-        WHERE id = ?;
-        """
-        CURSOR.execute(SQL, (self.customer_id, self.user_id, self.total_amount, self.order_id))
-        CONN.commit()
-        self.date = CURSOR.execute("SELECT date FROM orders WHERE id = ?", (self.order_id,)).fetchone()[0]  # Update local instance date attribute
-
     def delete(self):
         SQL = """
         DELETE FROM orders
@@ -79,6 +78,13 @@ class Order:
         CONN.commit()
         del type(self).all[self.order_id]
         self.order_id = None
+
+    @classmethod
+    def create(cls, date, customer_id, user_id, total_amount):
+        order = cls(order_id = None, date = date, customer_id= customer_id, user_id = user_id, total_amount=total_amount)
+        order.total_amount = total_amount
+        order.save()
+        return order
 
     @classmethod
     def instance_from_db(cls, row):
