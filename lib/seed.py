@@ -43,10 +43,10 @@ def seed_database():
    
     # Orders
     current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    order1 = Order.create(date=current_date, customer_id=customer1.customer_id, user_id=user1.user_id, total_amount=0)
-    order2 = Order.create(date=current_date, customer_id=customer1.customer_id, user_id=user2.user_id, total_amount=80)
-    order3 = Order.create( date=current_date, customer_id=customer2.customer_id, user_id=user3.user_id, total_amount=40)
-    order4 = Order.create( date=current_date, customer_id=customer2.customer_id, user_id=user4.user_id, total_amount=40)
+    order1 = Order.create(date=current_date, customer_id=customer1.customer_id, user_id=user1.user_id, total_amount=700)
+    order2 = Order.create(date=current_date, customer_id=customer1.customer_id, user_id=user2.user_id, total_amount=800)
+    order3 = Order.create( date=current_date, customer_id=customer2.customer_id, user_id=user3.user_id, total_amount=400)
+    order4 = Order.create( date=current_date, customer_id=customer2.customer_id, user_id=user4.user_id, total_amount=250)
 
     # Order Items
     OrderItems.create(order_id=order1.order_id, gift_id=gift1.gift_id, quantity=2, price =50)

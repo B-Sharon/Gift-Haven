@@ -183,11 +183,11 @@ def update_order():
     id_ = input("Enter the order's id: ")
     if order := Order.find_by_id(id_):
         try:
-            date = input("Enter the new date (YYYY-MM-DD): ")
+            #date = input("Enter the new date (YYYY-MM-DD): ")
             customer_id = input("Enter the new customer's id: ")
             user_id = input("Enter the new user's id: ")
             total_amount = input("Enter the new total amount: ")
-            order.date = date
+            #order.date = date
             order.customer_id = customer_id
             order.user_id = user_id
             order.total_amount = float(total_amount)
